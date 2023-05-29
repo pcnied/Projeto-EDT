@@ -1,44 +1,24 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import React from 'react';
 
-import MyFooter from '../../components/Footer';
+import Footer from '../../components/Footer';
+import HomeTitle from '../../components/HomeTitle';
 import NavBar from '../../components/NavBar';
-import CardProduct from '../../components/ProductCard';
 
-const Welcome: React.FC = () => {
+const Home = () => {
 	return (
 		<React.Fragment>
-			<NavBar />
-			<Grid
-				container
-				sx={{ padding: '20px' }}
-				spacing={2}
-				// justifyContent="center"
-			>
-				<Grid xs={12} item>
-					<Typography component={'h1'} variant="h4">
-						PRODUTOS
-					</Typography>
-				</Grid>
-				<Grid item>
-					<CardProduct />
-				</Grid>
-				<Grid item>
-					<CardProduct />
-				</Grid>
-				<Grid item>
-					<CardProduct />
-				</Grid>
-				<Grid item>
-					<CardProduct />
-				</Grid>
-				<Grid item>
-					<CardProduct />
+			<NavBar positionAppBar="static" />
+			<Grid container sx={{ height: '100vh', justifyContent: 'center' }}>
+				<Grid xs={12} item sx={{ height: '10px' }}></Grid>
+				<Grid item sx={{ width: '100%' }}>
+					<HomeTitle title="CATEGORIAS" />
+					<HomeTitle title="PRODUTOS" />
 				</Grid>
 			</Grid>
-			<MyFooter />
+			<Footer />
 		</React.Fragment>
 	);
 };
 
-export default Welcome;
+export default Home;

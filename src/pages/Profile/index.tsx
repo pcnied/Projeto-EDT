@@ -1,4 +1,8 @@
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import {
+	ContactPageOutlined,
+	HomeRounded,
+	LocationOnOutlined,
+} from '@mui/icons-material';
 import { Box, Grid, Icon, Typography } from '@mui/material';
 import React from 'react';
 
@@ -9,7 +13,7 @@ import NavBar from '../../components/NavBar';
 const Profile = () => {
 	return (
 		<React.Fragment>
-			<NavBar />
+			<NavBar positionAppBar="fixed" />
 			<Grid
 				container
 				justifyContent={'center'}
@@ -49,27 +53,21 @@ const Profile = () => {
 						>
 							<Grid item display={'flex'}>
 								<Icon>
-									<HomeRoundedIcon />
+									<HomeRounded />
 								</Icon>
 								<Typography>Home</Typography>
 							</Grid>
 							<Grid item display={'flex'}>
 								<Icon>
-									<HomeRoundedIcon />
+									<LocationOnOutlined />
 								</Icon>
 								<Typography>Meus endereços</Typography>
 							</Grid>
 							<Grid item display={'flex'}>
 								<Icon>
-									<HomeRoundedIcon />
+									<ContactPageOutlined />
 								</Icon>
-								<Typography>Dados e preferência</Typography>
-							</Grid>
-							<Grid item display={'flex'}>
-								<Icon>
-									<HomeRoundedIcon />
-								</Icon>
-								<Typography>Meus pedidos</Typography>
+								<Typography>Dados e preferências</Typography>
 							</Grid>
 						</Grid>
 					</Box>

@@ -18,15 +18,30 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import DrawerCart from '../Drawer';
+
+type Anchor = 'right';
+
+interface NavBarProps {
+	positionAppBar:
+		| 'fixed'
+		| 'absolute'
+		| 'relative'
+		| 'static'
+		| 'sticky'
+		| undefined;
+}
+
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
-	borderRadius: theme.shape.borderRadius,
+	borderRadius: '20px',
 	backgroundColor: alpha(theme.palette.common.white, 0.15),
 	'&:hover': {
 		backgroundColor: alpha(theme.palette.common.white, 0.25),
 	},
 	marginRight: theme.spacing(2),
 	marginLeft: 0,
+	border: '1px solid black',
 	width: '100%',
 	[theme.breakpoints.up('sm')]: {
 		marginLeft: theme.spacing(3),
@@ -58,11 +73,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-const NavBar = () => {
+const NavBar: React.FC<NavBarProps> = ({ positionAppBar }) => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
 		React.useState<null | HTMLElement>(null);
+
+	const [anchorCart, setAnchorCart] = React.useState({ right: false });
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -84,6 +101,21 @@ const NavBar = () => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
 
+	const toggleDrawer =
+		(anchor: Anchor, open: boolean) =>
+		(event: React.KeyboardEvent | React.MouseEvent) => {
+			console.log(anchor, anchorCart);
+			if (
+				event.type === 'keydown' &&
+				((event as React.KeyboardEvent).key === 'Tab' ||
+					(event as React.KeyboardEvent).key === 'Shift')
+			) {
+				return;
+			}
+
+			setAnchorCart({ ...anchorCart, [anchor]: open });
+		};
+
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
@@ -104,7 +136,7 @@ const NavBar = () => {
 			<MenuItem
 				onClick={() => {
 					handleMenuClose;
-					navigate('/perfil');
+					navigate('/profile');
 				}}
 			>
 				Perfil
@@ -170,75 +202,80 @@ const NavBar = () => {
 	);
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="fixed">
-				<Toolbar>
-					<IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						aria-label="open drawer"
-						sx={{ mr: 2 }}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						variant="h6"
-						noWrap
-						component="div"
-						sx={{ display: { xs: 'none', sm: 'block' } }}
-					>
-						Experientes da Terra
-					</Typography>
-					<Search>
-						<SearchIconWrapper>
-							<SearchIcon />
-						</SearchIconWrapper>
-						<StyledInputBase
-							placeholder="Search…"
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</Search>
-					<Box sx={{ flexGrow: 1 }} />
-					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+		<React.Fragment>
+			<Box sx={{ flexGrow: 1 }}>
+				<AppBar position={positionAppBar}>
+					<Toolbar>
 						<IconButton
 							size="large"
-							aria-label="show 4 new mails"
+							edge="start"
 							color="inherit"
+							aria-label="open drawer"
+							sx={{ mr: 2 }}
 						>
-							<Badge badgeContent={7} color="error">
-								<ShoppingCartTwoToneIcon />
-							</Badge>
+							<MenuIcon />
 						</IconButton>
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit"
+						<Typography
+							variant="h6"
+							noWrap
+							component="div"
+							sx={{ display: { xs: 'none', sm: 'block' } }}
 						>
-							<AccountCircle />
-						</IconButton>
-					</Box>
-					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-						<IconButton
-							size="large"
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit"
-						>
-							<MoreIcon />
-						</IconButton>
-					</Box>
-				</Toolbar>
-			</AppBar>
-			{renderMobileMenu}
-			{renderMenu}
-		</Box>
+							Experientes da Terra
+						</Typography>
+						<Search>
+							<SearchIconWrapper>
+								<SearchIcon />
+							</SearchIconWrapper>
+							<StyledInputBase
+								placeholder="Search…"
+								inputProps={{ 'aria-label': 'search' }}
+							/>
+						</Search>
+						<Box sx={{ flexGrow: 1 }} />
+						<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+							<IconButton
+								size="large"
+								aria-label="show 4 new mails"
+								color="inherit"
+								onClick={() => setAnchorCart({ right: true })}
+							>
+								<Badge badgeContent={7} color="error">
+									<ShoppingCartTwoToneIcon />
+								</Badge>
+							</IconButton>
+							<IconButton
+								size="large"
+								edge="end"
+								aria-label="account of current user"
+								aria-controls={menuId}
+								aria-haspopup="true"
+								onClick={handleProfileMenuOpen}
+								color="inherit"
+							>
+								<AccountCircle />
+							</IconButton>
+						</Box>
+						<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+							<IconButton
+								size="large"
+								aria-label="show more"
+								aria-controls={mobileMenuId}
+								aria-haspopup="true"
+								onClick={handleMobileMenuOpen}
+								color="inherit"
+							>
+								<MoreIcon />
+							</IconButton>
+						</Box>
+					</Toolbar>
+				</AppBar>
+				{renderMobileMenu}
+				{renderMenu}
+			</Box>
+
+			<DrawerCart anchorCart={anchorCart} setAnchorCart={setAnchorCart} />
+		</React.Fragment>
 	);
 };
 

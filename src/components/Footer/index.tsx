@@ -1,25 +1,39 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Link, Typography } from '@mui/material';
 
 const MyFooter = () => {
 	return (
-		<Grid container sx={{ margin: '0', padding: '0' }}>
+		<Box component={'div'}>
 			<Grid
-				xs={12}
-				item
-				sx={{
-					width: '100vh',
-					height: '180px',
-					background: 'black',
-				}}
+				container
+				sx={{ margin: '0', background: 'black' }}
+				flexDirection={'row'}
+				padding={10}
+				justifyContent={'space-between'}
 			>
-				{/* <Box component={'img'} src={}></Box> */}
-				<Box sx={{ padding: '10px' }}>
-					<Typography variant="h5" color={'white'}>
+				<Grid item>
+					<Typography variant="h6" color={'white'}>
 						SOBRE NÓS
 					</Typography>
-				</Box>
+					<Box display={'flex'} flexDirection={'column'}>
+						<Link sx={{ textDecoration: 'none', color: 'white' }}>
+							Termos de Uso
+						</Link>
+						<Link></Link>
+						<Link to={''}>Termos de Uso</Link>
+					</Box>
+				</Grid>
+				<Grid item>
+					<Typography variant="h6" color={'white'}>
+						AJUDA E SUPORTE
+					</Typography>
+				</Grid>
+				<Grid item>
+					<Typography variant="h6" color={'white'}>
+						REDES SOCIAIS
+					</Typography>
+				</Grid>
 			</Grid>
-		</Grid>
+		</Box>
 	);
 };
 
